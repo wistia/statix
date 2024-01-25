@@ -1,7 +1,7 @@
 defmodule Statix.Conn do
   @moduledoc false
 
-  defstruct [:sock, :address, :port, :prefix]
+  defstruct [:sock, :address, :port, :prefix, :is_ipv6]
 
   alias Statix.Packet
 
@@ -14,18 +14,29 @@ defmodule Statix.Conn do
   def new(host, port, prefix) when is_list(host) or is_tuple(host) do
     case :inet.getaddr(host, :inet) do
       {:ok, address} ->
-        %__MODULE__{address: address, port: port, prefix: prefix}
+        %__MODULE__{address: address, port: port, prefix: prefix, is_ipv6: false}
 
-      {:error, reason} ->
-        raise(
-          "cannot get the IP address for the provided host " <>
-            "due to reason: #{:inet.format_error(reason)}"
-        )
+      _ ->
+        case :inet.getaddr(host, :inet6) do
+          {:ok, address} ->
+            %__MODULE__{address: address, port: port, prefix: prefix, is_ipv6: true}
+
+          {:error, reason} ->
+            raise(
+              "cannot get the IP address for the provided host " <>
+                "due to reason: #{:inet.format_error(reason)}"
+            )
+        end
     end
   end
 
-  def open(%__MODULE__{} = conn) do
-    {:ok, sock} = :gen_udp.open(0, active: false)
+  def open(%__MODULE__{is_ipv6: is_ipv6} = conn) do
+    {:ok, sock} =
+      case is_ipv6 do
+        true -> :gen_udp.open(0, [{:active, false}, :inet6])
+        false -> :gen_udp.open(0, [{:active, false}])
+      end
+
     %__MODULE__{conn | sock: sock}
   end
 
