@@ -2,7 +2,7 @@ defmodule Statix.Mixfile do
   use Mix.Project
 
   @version "1.5.0"
-  @source_url "https://github.com/discord/statix"
+  @source_url "https://github.com/wistia/statix"
 
   def project() do
     [
@@ -22,7 +22,10 @@ defmodule Statix.Mixfile do
   end
 
   def application() do
-    [applications: [:logger]]
+    [
+      mod: {Statix.Application, []},
+      extra_applications: [:logger]
+    ]
   end
 
   defp description() do
