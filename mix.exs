@@ -6,7 +6,7 @@ defmodule Statix.Mixfile do
 
   def project() do
     [
-      app: :discord_statix,
+      app: :statix,
       version: @version,
       elixir: "~> 1.3",
       deps: deps(),
