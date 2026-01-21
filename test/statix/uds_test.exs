@@ -72,13 +72,13 @@ defmodule Statix.UDSTest do
 
   test "timing via UDS", _context do
     TestStatix.timing("sample", 2)
-    assert_receive {:test_server, _, "sample:2|ms"}
+    assert_receive {:test_server, _, "sample:2|d"}
 
     TestStatix.timing("sample", 2.1)
-    assert_receive {:test_server, _, "sample:2.1|ms"}
+    assert_receive {:test_server, _, "sample:2.1|d"}
 
     TestStatix.timing("sample", 3, tags: ["foo:bar", "baz"])
-    assert_receive {:test_server, _, "sample:3|ms|#foo:bar,baz"}
+    assert_receive {:test_server, _, "sample:3|d|#foo:bar,baz"}
   end
 
   test "set via UDS", _context do
@@ -160,7 +160,7 @@ defmodule Statix.UDSTest do
     assert length(connections) == 3
 
     socket_refs =
-      for i <- 1..1000 do
+      for _i <- 1..1000 do
         {:ok, conn} = Statix.ConnTracker.get(context[:socket_path])
         TestStatix.increment("pooled.metric")
         assert_receive {:test_server, _, _packet}

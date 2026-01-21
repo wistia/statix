@@ -61,7 +61,7 @@ defmodule Statix.OverridingTest do
 
   test "timing/3" do
     timing("sample", 3, tags: ["foo"])
-    assert_receive {:test_server, _, "sample-overridden:3|ms|#foo"}
+    assert_receive {:test_server, _, "sample-overridden:3|d|#foo"}
   end
 
   test "measure/3" do
@@ -69,7 +69,7 @@ defmodule Statix.OverridingTest do
       :timer.sleep(100)
     end)
 
-    assert_receive {:test_server, _, <<"sample-measure-overridden:10", _, "|ms|#foo">>}
+    assert_receive {:test_server, _, <<"sample-measure-overridden:10", _, "|d|#foo">>}
   end
 
   test "set/3" do

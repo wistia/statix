@@ -253,6 +253,26 @@ defmodule Statix do
   @callback set(key, value :: String.Chars.t()) :: on_send
 
   @doc """
+  Writes `value` to the distribution identified by `key`.
+
+  Distributions are a DogStatsD extension that provide global aggregation
+  of values across your entire infrastructure, enabling accurate percentile
+  calculations regardless of host.
+
+  ## Examples
+
+      iex> MyApp.Statix.distribution("response_time", 250, [])
+      :ok
+
+  """
+  @callback distribution(key, value :: String.Chars.t(), options) :: on_send
+
+  @doc """
+  Same as `distribution(key, value, [])`.
+  """
+  @callback distribution(key, value :: String.Chars.t()) :: on_send
+
+  @doc """
   Measures the execution time of the given `function` and writes that to the
   StatsD timing identified by `key`.
 
@@ -338,7 +358,7 @@ defmodule Statix do
       end
 
       def timing(key, val, options \\ []) do
-        Statix.transmit(current_statix(), :timing, key, val, options)
+        Statix.transmit(current_statix(), :distribution, key, val, options)
       end
 
       def measure(key, options \\ [], fun) when is_function(fun, 0) do
@@ -353,6 +373,10 @@ defmodule Statix do
         Statix.transmit(current_statix(), :set, key, val, options)
       end
 
+      def distribution(key, val, options \\ []) do
+        Statix.transmit(current_statix(), :distribution, key, val, options)
+      end
+
       defoverridable(
         increment: 3,
         decrement: 3,
@@ -360,7 +384,8 @@ defmodule Statix do
         histogram: 3,
         timing: 3,
         measure: 3,
-        set: 3
+        set: 3,
+        distribution: 3
       )
     end
   end

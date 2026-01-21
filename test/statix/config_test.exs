@@ -19,7 +19,7 @@ defmodule Statix.ConfigTest do
     assert_receive {:test_server, _, "sample:3|c|#tag:test"}
 
     timing("sample", 3, tags: ["foo"])
-    assert_receive {:test_server, _, "sample:3|ms|#foo,tag:test"}
+    assert_receive {:test_server, _, "sample:3|d|#foo,tag:test"}
   after
     Application.delete_env(:statix, :tags)
   end
