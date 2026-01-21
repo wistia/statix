@@ -125,6 +125,7 @@ defmodule Statix.UDSTest do
     assert byte_size(packet) > 1024
   end
 
+  @tag :linux_only
   test "very large packet over 4096 bytes via UDS fails gracefully", _context do
     # UDS DGRAM sockets have a system-imposed maximum message size (typically 2048-8192 bytes).
     # Packets exceeding this limit cannot be sent. This test verifies graceful failure.
