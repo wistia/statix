@@ -8,13 +8,6 @@ exclude =
     [:uds]
   end
 
-# Exclude Linux-only tests on non-Linux systems
-exclude =
-  case :os.type() do
-    {:unix, :linux} -> exclude
-    _ -> [:linux_only | exclude]
-  end
-
 ExUnit.start(exclude: exclude)
 
 defmodule Statix.TestCase do
