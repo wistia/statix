@@ -11,7 +11,7 @@ jobs:
     name: Code linting
     uses: lexmag/elixir-actions/.github/workflows/lint.yml@v2
     with:
-      otp-version: "28"
+      otp-version: "27"
       elixir-version: "1.18"
 
   test:
@@ -20,7 +20,7 @@ jobs:
 
     strategy:
       matrix:
-        otp: ["27", "28"]
+        otp: ["27"]
         elixir: ["1.17", "1.18"]
         runtime_config: [true, false]
 
