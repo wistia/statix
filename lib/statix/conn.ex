@@ -23,7 +23,13 @@ defmodule Statix.Conn do
       _ ->
         case :inet.getaddr(host, :inet6) do
           {:ok, address} ->
-            %__MODULE__{address: address, port: port, prefix: prefix, transport: :udp, is_ipv6: true}
+            %__MODULE__{
+              address: address,
+              port: port,
+              prefix: prefix,
+              transport: :udp,
+              is_ipv6: true
+            }
 
           {:error, reason} ->
             raise(
