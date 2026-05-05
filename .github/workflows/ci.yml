@@ -9,7 +9,7 @@ on:
 jobs:
   lint:
     name: Code linting
-    uses: lexmag/elixir-actions/.github/workflows/lint.yml@v2
+    uses: lexmag/elixir-actions/.github/workflows/lint.yml@82f55cff62c166b6fca86376210a062c510a1a02 # v2
     with:
       otp-version: "27"
       elixir-version: "1.18"
@@ -28,10 +28,10 @@ jobs:
       MIX_ENV: test
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
       - name: Set up Elixir environment
-        uses: erlef/setup-beam@v1.20.4
+        uses: erlef/setup-beam@e6d7c94229049569db56a7ad5a540c051a010af9 # v1.20.4
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
